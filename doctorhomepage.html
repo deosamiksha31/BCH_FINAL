@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Doctor's Appointment Schedule</title>
+    <style>
+        /* Full-screen background settings */
+        body, html {
+            height: 100%;
+            margin: 0;
+            font-family: 'Roboto', sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-image: url('/static/firstpage.jpg'); /* Background image */
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            transition: background-color 0.5s ease;
+        }
+
+        /* Overlay to improve readability */
+        .overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6); /* Darker overlay for better contrast */
+            z-index: 0;
+        }
+
+        /* Main container styling */
+        .container {
+            position: relative;
+            z-index: 1;
+            background: rgba(255, 255, 255, 0.9);
+            width: 90%;
+            max-width: 1000px;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            margin-top: 50px;
+            overflow-y: auto;
+        }
+
+        /* Title Styling */
+        .container h1 {
+            text-align: center;
+            color: #4CAF50;
+            margin-bottom: 30px;
+            font-size: 36px;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Appointments Table */
+        .appointments-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 30px;
+        }
+
+        .appointments-table th, .appointments-table td {
+            padding: 12px 15px;
+            text-align: left;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+        }
+
+        .appointments-table th {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        .appointments-table tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        .appointments-table tr:hover {
+            background-color: #f1f1f1;
+        }
+
+        /* Button Styling */
+        .view-details-btn, .reschedule-btn {
+            background-color: #4CAF50;
+            color: white;
+            padding: 8px 16px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .view-details-btn:hover, .reschedule-btn:hover {
+            background-color: #45a049;
+        }
+
+        /* Add margin between buttons */
+        .view-details-btn {
+            margin-right: 10px; /* Adds space between the two buttons */
+        }
+
+        /* Patient Details Modal */
+        .patient-details {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            width: 80%;
+            max-width: 600px;
+            z-index: 999;
+            animation: fadeIn 0.3s ease-out;
+        }
+
+        .patient-details h3 {
+            color: #4CAF50;
+            margin-bottom: 20px;
+        }
+
+        .patient-details .close-btn {
+            background-color: #f44336;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        .patient-details .close-btn:hover {
+            background-color: #d32f2f;
+        }
+
+        /* Modal fade-in effect */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Reschedule Modal */
+        .reschedule-modal {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            width: 80%;
+            max-width: 600px;
+            z-index: 999;
+            animation: fadeIn 0.3s ease-out;
+        }
+
+        .reschedule-modal input, .reschedule-modal select {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        .reschedule-modal .close-btn, .reschedule-modal .save-btn {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        .reschedule-modal .close-btn:hover, .reschedule-modal .save-btn:hover {
+            background-color: #45a049;
+        }
+
+        /* Responsive Design */
+        @media screen and (max-width: 768px) {
+            .container {
+                padding: 20px;
+            }
+
+            .appointments-table th, .appointments-table td {
+                padding: 10px;
+            }
+
+            .view-details-btn, .reschedule-btn {
+                padding: 6px 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="overlay"></div>
+
+<div class="container">
+    <h1>Doctor's Appointment Schedule</h1>
+    
+    <!-- Appointments Table -->
+    <table class="appointments-table">
+        <thead>
+            <tr>
+                <th>Patient Name</th>
+                <th>Appointment Time</th>
+                <th>Reason</th>
+                <th>Status</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Anjali Mehta</td>
+                <td>10:00 AM, Nov 10, 2024</td>
+                <td>Routine Checkup</td>
+                <td>Scheduled</td>
+                <td>
+                    <button class="view-details-btn" onclick="showPatientDetails('Anjali Mehta')">View Details</button>
+                    <button class="reschedule-btn" onclick="openRescheduleModal('Anjali Mehta', '10:00 AM, Nov 10, 2024')">Reschedule</button>
+                </td>
+            </tr>
+            <tr>
+                <td>Nupur Yadav</td>
+                <td>11:30 AM, Nov 10, 2024</td>
+                <td>Follow-up</td>
+                <td>Scheduled</td>
+                <td>
+                    <button class="view-details-btn" onclick="showPatientDetails('Nupur Yadav')">View Details</button>
+                    <button class="reschedule-btn" onclick="openRescheduleModal('Nupur Yadav', '11:30 AM, Nov 10, 2024')">Reschedule</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <!-- Patient Details Modal -->
+    <div id="patientDetailsModal" class="patient-details">
+        <h3>Patient Details: <span id="patientName"></span></h3>
+        <div>
+            <strong>Age:</strong> <span id="patientAge"></span>
+        </div>
+        <div>
+            <strong>Contact Information:</strong> <span id="patientContact"></span>
+        </div>
+        <div>
+            <strong>Medical History:</strong> <span id="patientHistory"></span>
+        </div>
+        <button class="close-btn" onclick="closePatientDetails()">Close</button>
+    </div>
+
+    <!-- Reschedule Modal -->
+    <div id="rescheduleModal" class="reschedule-modal">
+        <h3>Reschedule Appointment for <span id="reschedulePatientName"></span></h3>
+        <label for="newDate">New Date:</label>
+        <input type="date" id="newDate">
+        <label for="newTime">New Time:</label>
+        <input type="time" id="newTime">
+        <button class="save-btn" onclick="saveReschedule()">Save</button>
+        <button class="close-btn" onclick="closeRescheduleModal()">Cancel</button>
+    </div>
+</div>
+
+<script>
+    function showPatientDetails(patientName) {
+        // Hardcoded patient data for demonstration
+        var patientData = {
+            "Anjali Mehta": {
+                age: 30,
+                contact: "9876543210",
+                history: "No major medical conditions, routine checkup."
+            },
+            "Nupur Yadav": {
+                age: 41,
+                contact: "9911223344",
+                history: "Previous surgery for gallstones."
+            }
+        };
+
+        // Display the details for the selected patient
+        document.getElementById('patientName').innerText = patientName;
+        document.getElementById('patientAge').innerText = patientData[patientName].age;
+        document.getElementById('patientContact').innerText = patientData[patientName].contact;
+        document.getElementById('patientHistory').innerText = patientData[patientName].history;
+
+        // Show the modal
+        document.getElementById('patientDetailsModal').style.display = 'block';
+    }
+
+    function closePatientDetails() {
+        // Close the modal
+        document.getElementById('patientDetailsModal').style.display = 'none';
+    }
+
+    function openRescheduleModal(patientName, currentAppointment) {
+        // Open the reschedule modal and populate the patient's name
+        document.getElementById('reschedulePatientName').innerText = patientName;
+        document.getElementById('rescheduleModal').style.display = 'block';
+    }
+
+    function closeRescheduleModal() {
+        // Close the reschedule modal
+        document.getElementById('rescheduleModal').style.display = 'none';
+    }
+
+    function saveReschedule() {
+        // Save the new appointment details (you can later implement saving to the database)
+        var newDate = document.getElementById('newDate').value;
+        var newTime = document.getElementById('newTime').value;
+
+        if (newDate && newTime) {
+            alert('Appointment rescheduled to ' + newDate + ' at ' + newTime);
+            closeRescheduleModal();
+        } else {
+            alert('Please fill in both date and time');
+        }
+    }
+</script>
+
+</body>
+</html>

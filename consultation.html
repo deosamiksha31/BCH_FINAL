@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book an Appointment</title>
+    <style>
+        body, html {
+            height: 100%;
+            margin: 0;
+            font-family: 'Roboto', sans-serif;
+            background-image: url('/static/firstpage.jpg'); /* Background image */
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6); /* Dark overlay */
+            z-index: 0;
+        }
+
+        .doctor-container {
+            position: relative;
+            z-index: 1;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 30px;
+            width: 90%;
+            max-width: 700px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            overflow-y: auto;
+            max-height: 80vh;
+            text-align: center;
+        }
+
+        .doctor-container h1 {
+            font-size: 28px;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        .doctor-card {
+            background: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 15px;
+            text-align: left;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .doctor-card h2 {
+            margin: 0;
+            font-size: 20px;
+            color: #4CAF50;
+        }
+
+        .doctor-card p {
+            margin: 5px 0;
+            font-size: 16px;
+            color: #555;
+        }
+
+        .doctor-card .slots {
+            margin-top: 10px;
+        }
+
+        .doctor-card button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 15px;
+            font-size: 14px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .doctor-card button:hover {
+            background-color: #3e8e41;
+        }
+
+        .confirmation {
+            margin-top: 10px;
+            font-size: 14px;
+            color: #2ecc71; /* Green */
+            display: none;
+        }
+
+        select {
+            padding: 8px;
+            margin-top: 10px;
+            font-size: 14px;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+
+<div class="overlay"></div>
+<div class="doctor-container">
+    <h1>Available Doctors</h1>
+
+    <!-- Doctor 1 -->
+    <div class="doctor-card">
+        <h2>Dr. Sharad Gurav</h2>
+        <p><strong>Specialty:</strong> General Surgeon, Laproscopic Surgeon </p>
+        <p><strong>Free Slots:</strong></p>
+        <select class="slot-selector">
+            <option value="" disabled selected>Select a time slot</option>
+            <option value="10:00 AM">10:00 AM</option>
+            <option value="11:30 AM">11:30 AM</option>
+            <option value="2:00 PM">2:00 PM</option>
+        </select>
+        <button onclick="bookAppointment(this, 'Dr. Sharad Gurav', 'General Surgeon, Laproscopic Surgeon')">Book Appointment</button>
+        <p class="confirmation"></p>
+    </div>
+
+    <!-- Doctor 2 -->
+    <div class="doctor-card">
+        <h2>Dr. Parag Dongre</h2>
+        <p><strong>Specialty:</strong> General Surgeon</p>
+        <p><strong>Free Slots:</strong></p>
+        <select class="slot-selector">
+            <option value="" disabled selected>Select a time slot</option>
+            <option value="9:30 AM">9:30 AM</option>
+            <option value="12:00 PM">12:00 PM</option>
+            <option value="3:00 PM">3:00 PM</option>
+        </select>
+        <button onclick="bookAppointment(this, 'Dr. Parag Dongre', 'General Surgeon')">Book Appointment</button>
+        <p class="confirmation"></p>
+    </div>
+
+    <!-- Doctor 3 -->
+    <div class="doctor-card">
+        <h2>Dr. Kanchan Kaur</h2>
+        <p><strong>Specialty:</strong> Breast Disease Management(Benign and Cancer), Sentinel Node Biopsies and Breast Cancer Surgeries</p>
+        <p><strong>Free Slots:</strong></p>
+        <select class="slot-selector">
+            <option value="" disabled selected>Select a time slot</option>
+            <option value="10:30 AM">10:30 AM</option>
+            <option value="1:00 PM">1:00 PM</option>
+            <option value="4:00 PM">4:00 PM</option>
+        </select>
+        <button onclick="bookAppointment(this, 'Dr. Kanchan Kaur', 'Breast Disease Management(Benign and Cancer), Sentinel Node Biopsies and Breast Cancer Surgeries')">Book Appointment</button>
+        <p class="confirmation"></p>
+    </div>
+
+    <!-- Doctor 4 -->
+    <div class="doctor-card">
+        <h2>Dr. Shona Nag</h2>
+        <p><strong>Specialty:</strong> Best Oncologiest/Cancer</p>
+        <p><strong>Free Slots:</strong></p>
+        <select class="slot-selector">
+            <option value="" disabled selected>Select a time slot</option>
+            <option value="9:00 AM">9:00 AM</option>
+            <option value="12:30 PM">12:30 PM</option>
+            <option value="2:30 PM">2:30 PM</option>
+        </select>
+        <button onclick="bookAppointment(this, 'Dr. Shona Nag', 'Best Oncologist/Cancer')">Book Appointment</button>
+        <p class="confirmation"></p>
+    </div>
+
+    <!-- Doctor 5 -->
+    <div class="doctor-card">
+        <h2>Dr. Sanjay Dudhat</h2>
+        <p><strong>Specialty:</strong> Surgical Oncology(Breast)</p>
+        <p><strong>Free Slots:</strong></p>
+        <select class="slot-selector">
+            <option value="" disabled selected>Select a time slot</option>
+            <option value="8:30 AM">8:30 AM</option>
+            <option value="10:30 AM">10:30 AM</option>
+            <option value="3:30 PM">3:30 PM</option>
+        </select>
+        <button onclick="bookAppointment(this, 'Dr. Sanjay Dudhat', 'Surgical Oncology(Breast)')">Book Appointment</button>
+        <p class="confirmation"></p>
+    </div>
+</div>
+
+<script>
+    function bookAppointment(button, doctorName, specialty) {
+        const slotSelector = button.previousElementSibling;
+        const selectedSlot = slotSelector.value;
+
+        if (!selectedSlot) {
+            alert('Please select a time slot before booking.');
+            return;
+        }
+
+        button.disabled = true;
+        button.style.backgroundColor = '#ccc';
+        slotSelector.disabled = true;
+
+        const confirmationMessage = button.nextElementSibling;
+        confirmationMessage.textContent = `Appointment booked successfully with ${doctorName} (${specialty}) at ${selectedSlot}.`;
+        confirmationMessage.style.display = 'block';
+
+        console.log(`Appointment booked: ${doctorName}, ${specialty}, ${selectedSlot}`);
+    }
+</script>
+
+</body>
+</html>

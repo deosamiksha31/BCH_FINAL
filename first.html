@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Page</title>
+    <style>
+        /* Full-screen background settings */
+        body, html {
+            height: 100%;
+            margin: 0;
+            font-family: 'Arial', sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-image: url('/static/firstpage.jpg'); /* Replace with your image path */
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed; /* Ensures background scales with viewport */
+            overflow: hidden;
+        }
+
+        /* Lighter overlay to make the background image more visible */
+        .overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.4); /* Lower opacity for better image visibility */
+            z-index: 0;
+        }
+
+        /* Centered buttons container with subtle background */
+        .centered-buttons {
+            position: relative;
+            z-index: 1;
+            text-align: center;
+            background: rgba(255, 255, 255, 0.3);
+            padding: 40px;
+            border-radius: 15px;
+            backdrop-filter: blur(8px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Button styling with hover and active effects */
+        .login-button {
+            background-color: #4CAF50; /* Green */
+            color: white;
+            padding: 15px 40px;
+            font-size: 18px;
+            margin: 15px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: 0.4s;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Hover effect for buttons */
+        .login-button:hover {
+            background-color: #3e8e41;
+            transform: scale(1.05);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
+        }
+
+        /* Active effect for buttons */
+        .login-button:active {
+            transform: scale(0.98);
+        }
+    </style>
+</head>
+<body>
+
+<div class="overlay"></div>
+<div class="centered-buttons">
+    <h2 style="color: black; margin-bottom: 30px;">Welcome to Breast Health Care Portal!!</h2>
+    <button class="login-button" onclick="window.location.href='/doctor_login_get';">Doctor Login</button>
+    <button class="login-button" onclick="patientLogin()">Patient Login</button>
+</div>
+
+<script>
+    function doctorLogin() {
+        window.location.href = "doctor_login.html";
+    }
+
+    function patientLogin() {
+        window.location.href = "patient_login.html";
+    }
+</script>
+
+</body>
+</html>

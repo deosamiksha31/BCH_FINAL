@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Step 2: Hormonal and Reproductive History</title>
+    <style>
+        /* Full-screen background settings */
+        body, html {
+            height: 100%;
+            margin: 0;
+            font-family: 'Arial', sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-image: url('/static/firstpage.jpg'); /* Replace with your image path */
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+        }
+
+        /* Overlay to improve readability */
+        .overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 0;
+        }
+
+        /* Form container */
+        .form-container {
+            position: relative;
+            z-index: 1;
+            background: rgba(255, 255, 255, 0.8);
+            width: 90%;
+            max-width: 700px;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(10px);
+        }
+
+        /* Title styling */
+        .form-container h2 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 30px;
+            font-size: 28px;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Question styling */
+        .question {
+            margin-bottom: 25px;
+        }
+
+        /* Label styling */
+        label {
+            font-weight: 600;
+            margin-bottom: 8px;
+            display: block;
+            color: #444;
+            font-size: 18px;
+        }
+
+        /* Radio button styling */
+        input[type="radio"] {
+            margin-right: 10px;
+            accent-color: #4CAF50;
+        }
+
+        /* Input field styling */
+        input[type="number"], select {
+            padding: 12px;
+            margin-top: 8px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            width: calc(100% - 24px);
+            font-size: 16px;
+        }
+
+        /* Button styling */
+        .next-button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 16px 20px;
+            font-size: 20px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-top: 20px;
+            display: block;
+            width: 100%;
+            text-align: center;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: background 0.3s, transform 0.3s;
+        }
+
+        .next-button:hover {
+            background-color: #45a049;
+            transform: scale(1.05);
+        }
+
+        .next-button:active {
+            transform: scale(1);
+            box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2);
+        }
+    </style>
+</head>
+<body>
+
+<div class="overlay"></div>
+<div class="form-container">
+    <h2>Step 2: Hormonal and Reproductive History</h2>
+    
+    <form id="hormonalReproductiveForm">
+        <div class="question">
+            <label>1. At what age did you start menstruating?</label>
+            <input type="number" name="menstruationAge" min="0" required>
+        </div>
+        
+        <div class="question">
+            <label>2. At what age did you experience menopause (if applicable)?</label>
+            <input type="number" name="menopauseAge" min="0">
+        </div>
+        
+        <div class="question">
+            <label>3. Have you ever used hormone replacement therapy (HRT)?</label>
+            <input type="radio" name="hrt" value="yes" required> Yes
+            <input type="radio" name="hrt" value="no"> No
+        </div>
+        
+        <div class="question">
+            <label>4. Have you used oral contraceptives (birth control pills)?</label>
+            <input type="radio" name="contraceptives" value="yes" required> Yes
+            <input type="radio" name="contraceptives" value="no"> No
+        </div>
+        
+        <div class="question">
+            <label>5. How many children have you given birth to?</label>
+            <input type="number" name="childrenCount" id="childrenCount" min="0" onchange="toggleBreastfeedingQuestion()">
+        </div>
+        
+        <div class="question" id="firstChildQuestion" style="display:none;">
+            <label>6. At what age did you give birth to your first child (if applicable)?</label>
+            <input type="number" name="firstChildAge" min="0">
+        </div>
+
+        <div class="question" id="breastfeedingQuestion" style="display:none;">
+            <label>7. Have you ever breastfed your child?</label>
+            <input type="radio" name="breastfeeding" value="yes"> Yes
+            <input type="radio" name="breastfeeding" value="no"> No
+        </div>
+
+        <button type="submit" class="next-button">Save and Next</button>
+    </form>
+</div>
+
+<script>
+    function toggleBreastfeedingQuestion() {
+        const childrenCount = document.getElementById("childrenCount").value;
+        const showChildQuestions = childrenCount > 0;
+        document.getElementById("firstChildQuestion").style.display = showChildQuestions ? "block" : "none";
+        document.getElementById("breastfeedingQuestion").style.display = showChildQuestions ? "block" : "none";
+    }
+
+    document.getElementById("hormonalReproductiveForm").onsubmit = function(event) {
+        event.preventDefault();
+        alert("Form submitted!");
+        // Additional code to handle form data or navigate to the next step can go here
+    };
+</script>
+
+</body>
+</html>
